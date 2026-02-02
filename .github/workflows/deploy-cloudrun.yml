@@ -25,7 +25,8 @@ jobs:
           token_format: access_token
           workload_identity_provider: projects/768622108923/locations/global/workloadIdentityPools/orbit-gh/providers/orbit-gh-provider
           service_account: orbit-ci@dvem-5495a.iam.gserviceaccount.com
-
+          id_token_audience: https://orbit-anytime-v02-vi3lzqktza-du.a.run.app
+      
       - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v2
         with:
@@ -58,15 +59,8 @@ jobs:
       - name: Verify (auth required)
         run: |
           BASE="https://orbit-anytime-v02-vi3lzqktza-du.a.run.app"
-          TOKEN="$(gcloud auth print-identity-token --audiences=$BASE --impersonate-service-account=orbit-invoker@dvem-5495a.iam.gserviceaccount.com)"
+          TOKEN="${{ steps.auth.outputs.id_token }}"
           curl -fsS -H "Authorization: Bearer $TOKEN" "$BASE/health" | cat
           curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOff.json "$BASE/anytime/v02/run" | cat
           curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOn.json "$BASE/anytime/v02/run" | cat
       
-      - name: Verify (auth required)
-        run: |
-          BASE="https://orbit-anytime-v02-vi3lzqktza-du.a.run.app"
-          TOKEN="$(gcloud auth print-identity-token --audiences=$BASE)"
-          curl -fsS -H "Authorization: Bearer $TOKEN" "$BASE/health" | cat
-          curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOff.json "$BASE/anytime/v02/run" | cat
-          curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOn.json "$BASE/anytime/v02/run" | cat
