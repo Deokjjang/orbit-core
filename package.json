@@ -1,0 +1,38 @@
+{
+  "name": "orbit-core",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest",
+    "build": "npx tsc -p tsconfig.cloudrun.json",
+    "start": "node dist-cloudrun/apps/dev/src/cloudRunAnytimeV02.js",
+    "anytime:v02:serve": "tsx apps/server/src/dev/anytimeV02SmokeServer.ts",
+    "anytime:v02:off": "curl.exe -s -X POST \"http://localhost:4317/anytime/v02/run\" -H \"Content-Type: application/json\" --data-binary \"@apps/dev/payloads/anytimeV02/deepOff.json\"",
+    "anytime:v02:on": "curl.exe -s -X POST \"http://localhost:4317/anytime/v02/run\" -H \"Content-Type: application/json\" --data-binary \"@apps/dev/payloads/anytimeV02/deepOn.json\"",
+    "anytime:v02:wrap-v01:status": "powershell -NoProfile -Command \"try { Invoke-WebRequest -Method Post -Uri http://localhost:4317/anytime/v02/wrap-v01 -ContentType 'application/json' -InFile 'apps/dev/payloads/anytimeV02/wrapV01.json' -ErrorAction Stop | Out-Null; Write-Host 'status=200' } catch { $code=$_.Exception.Response.StatusCode.value__; Write-Host ('status=' + $code) }\"",
+    "test:contract:anytime:v02": "vitest run apps/dev/src/anytimeV02.contract.test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1",
+    "firebase-admin": "^13.6.0",
+    "ulid": "^3.0.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.2.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "basic_no_constraints",
+  "requestId": "gold-01",
+  "init": { "core": { "v": 0.1, "r": 0.0, "u": 0.2, "i": -0.1 } },
+  "constraints": [],
+  "opts": { "preset": "FREE", "seed": 777 },
+  "expect": {
+    "attractorsMin": 2,
+    "attractorsMax": 5,
+    "allowedLabels": ["STOP", "HOLD", "PROCEED"],
+    "mustHaveTraceKinds": ["SPREAD", "COMPETE", "RELAX", "CLUSTER", "RANK", "GATE"]
+  }
+}

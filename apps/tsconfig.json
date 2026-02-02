@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "..",
+    "outDir": "../dist",
+    "composite": false,
+    "baseUrl": "..",
+    "paths": {
+      "@core/*": ["src/*"],
+
+      "@orbit/items-item3": ["packages/orbit-items/item3/index.ts"],
+      "@orbit/items-item5": ["packages/orbit-items/item5/index.ts"],
+      "@orbit/items-item6": ["packages/orbit-items/item6/index.ts"]
+    }
+  },
+  "include": [
+    "server/src/**/*",
+    "worker/src/**/*",
+    "dev/src/**/*"
+  ]
+}

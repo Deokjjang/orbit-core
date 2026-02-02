@@ -1,0 +1,6 @@
+﻿{
+  "repro": { "requestId": "smoke-on", "seed": 2, "presetId": "default", "codeVersion": "dev" },
+  "budget": { "totalUnits": 50, "deepMaxUnits": 20 },
+  "exposure": { "exposure": "minimal" },
+  "hooksInput": { "base": { "coreResult": {}, "minBar": {} }, "lite": {} }
+}

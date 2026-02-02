@@ -1,0 +1,18 @@
+{
+  "name": "soft_uncertainty_penalty",
+  "requestId": "gold-03",
+  "init": { "core": { "v": 0.0, "r": 0.0, "u": 0.9, "i": 0.0 } },
+  "constraints": [
+    {
+      "name": "u_soft",
+      "type": "SOFT",
+      "rule": "max(0, core.u - 0.2)"
+    }
+  ],
+  "opts": { "preset": "FREE", "seed": 777 },
+  "expect": {
+    "attractorsMin": 2,
+    "attractorsMax": 5,
+    "allowedLabels": ["STOP", "HOLD", "PROCEED"]
+  }
+}

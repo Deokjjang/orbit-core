@@ -1,0 +1,42 @@
+{
+  "docHash": "adapter_doc_01",
+  "text": "This Agreement requires notice within 30 days.",
+  "rulePackSet": {
+    "packs": [
+      {
+        "meta": { "id": "adapter.sample.v0.1", "name": "Adapter Sample Pack", "version": "0.1.0" },
+        "atoms": [
+          {
+            "id": "atom_hard_block_demo",
+            "description": "Hard block demo",
+            "triggers": ["ALWAYS"],
+            "effects": [
+              {
+                "type": "HARD_BLOCK",
+                "id": "hb_1",
+                "constraintName": "missing_required_clause_demo",
+                "reason": "Required clause not found (demo)",
+                "severity": "HIGH"
+              }
+            ],
+            "priority": 80
+          }
+        ],
+        "conflictPolicy": { "hardBlockWins": true, "softBarrierMerge": "MAX", "axisInitMerge": "PRIORITY_WINS", "dedupeBy": "ID" }
+      }
+    ]
+  },
+  "expected": {
+    "version": "adapter.v0.1",
+    "meta": { "docHash": "adapter_doc_01" },
+    "axesInit": [],
+    "constraints": {
+      "hard": [
+        { "name": "missing_required_clause_demo", "reason": "Required clause not found (demo)", "severity": "HIGH" }
+      ],
+      "soft": []
+    },
+    "openQuestions": [],
+    "qualitySignals": []
+  }
+}

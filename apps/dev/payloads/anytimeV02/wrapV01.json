@@ -1,0 +1,9 @@
+﻿{
+  "repro": { "requestId": "wrap-v01-1", "seed": 3, "presetId": "default", "codeVersion": "dev" },
+  "budget": { "totalUnits": 10, "deepMaxUnits": 0 },
+  "exposure": { "exposure": "minimal" },
+  "hooksInput": {
+    "base": { "coreResult": {}, "minBar": {} },
+    "lite": {}
+  }
+}

@@ -1,0 +1,11 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      [
+        "build",
+        "-f", "apps/dev/Dockerfile.cloudrun-anytimeV02",
+        "-t", "asia-northeast3-docker.pkg.dev/dvem-5495a/orbit-containers/orbit-anytimev02:latest",
+        "."
+      ]
+images:
+  - "asia-northeast3-docker.pkg.dev/dvem-5495a/orbit-containers/orbit-anytimev02:latest"
