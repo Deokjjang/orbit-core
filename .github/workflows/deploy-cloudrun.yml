@@ -64,3 +64,5 @@ jobs:
           curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOff.json "$BASE/anytime/v02/run" | cat
           curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOn.json "$BASE/anytime/v02/run" | cat
       
+
+
