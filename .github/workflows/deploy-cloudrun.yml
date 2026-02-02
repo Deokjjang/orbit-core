@@ -1,0 +1,56 @@
+name: deploy-cloudrun
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "image tag (e.g. ci-v1)"
+        required: true
+        default: "ci-v1"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auth (Workload Identity Federation)
+        uses: google-github-actions/auth@v2
+        with:
+          token_format: access_token
+          workload_identity_provider: projects/768622108923/locations/global/workloadIdentityPools/orbit-gh/providers/orbit-gh-provider
+          service_account: orbit-ci@dvem-5495a.iam.gserviceaccount.com
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: dvem-5495a
+
+      - name: Docker auth (Artifact Registry)
+        run: |
+          gcloud auth configure-docker asia-northeast3-docker.pkg.dev --quiet
+
+      - name: Build
+        run: |
+          npm ci
+          npx tsc -p tsconfig.cloudrun.json --pretty false
+          node tools/fix-esm-imports.mjs dist-cloudrun
+          test -f dist-cloudrun/apps/dev/src/cloudRunAnytimeV02.js
+          docker build -t orbit-anytime-v02:${{ inputs.tag }} .
+
+      - name: Push
+        run: |
+          docker tag orbit-anytime-v02:${{ inputs.tag }} asia-northeast3-docker.pkg.dev/dvem-5495a/orbit/orbit-anytime-v02:${{ inputs.tag }}
+          docker push asia-northeast3-docker.pkg.dev/dvem-5495a/orbit/orbit-anytime-v02:${{ inputs.tag }}
+
+      - name: Deploy (NO TRAFFIC)
+        run: |
+          gcloud run deploy orbit-anytime-v02 \
+            --region asia-northeast3 \
+            --image asia-northeast3-docker.pkg.dev/dvem-5495a/orbit/orbit-anytime-v02:${{ inputs.tag }} \
+            --no-traffic
