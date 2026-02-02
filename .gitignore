@@ -1,0 +1,7 @@
+node_modules/
+dist/
+dist-cloudrun/
+.env
+*.env
+bad.json
+.DS_Store
