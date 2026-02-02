@@ -15,7 +15,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-        steps:
+    steps:
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -64,20 +64,3 @@ jobs:
           curl -fsS -H "Authorization: Bearer $TOKEN" "$BASE/health" | cat
           curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOff.json "$BASE/anytime/v02/run" | cat
           curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOn.json "$BASE/anytime/v02/run" | cat
-
-        run: |
-          gcloud run deploy orbit-anytime-v02 \
-            --region asia-northeast3 \
-            --image asia-northeast3-docker.pkg.dev/dvem-5495a/orbit/orbit-anytime-v02:${{ inputs.tag }} \
-            --no-traffic
-            
-      - name: Verify (auth required)
-        run: |
-          BASE="https://orbit-anytime-v02-vi3lzqktza-du.a.run.app"
-          TOKEN="${{ steps.auth.outputs.id_token }}"
-          curl -fsS -H "Authorization: Bearer $TOKEN" "$BASE/health" | cat
-          curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOff.json "$BASE/anytime/v02/run" | cat
-          curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" --data-binary @apps/dev/payloads/anytimeV02/deepOn.json "$BASE/anytime/v02/run" | cat
-      
-
-
